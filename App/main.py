@@ -11,7 +11,7 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing.image import img_to_array
 from flask import request
 from flask import jsonify
-from flask import Flask
+from flask import Flask, render_template
 from flask_cors import CORS,cross_origin
 import sys
 
@@ -46,7 +46,13 @@ def predict():
     print(prediction, file=sys.stderr)
     response = {
         'prediction': {
-            'x': prediction[0][0]
+            'value': prediction[0][0]
         }
     }
     return jsonify(response)
+
+@app.route('/', methods=['GET'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
+def render():
+    return render_template('predict.html')
+    

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title%}WHC - predict {% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h1 class="input-title">WHC Tomato Yield Scan</h1>
+        <div class="form-group">
+            <label>Supports only JPG</label>
+            <input type="file" id="image-selector" class="form-control-file">
+            <button id="predict-button" class="btn btn-primary">Predict</button>
+        </div>
+        
+    </div>
+
+    <div class="col">
+        <img src="" alt="foto" id="selected-image" class="image">
+    </div>
+    
+    <h3 id="greeting"></h3>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="{{ url_for('static', filename='connect.js') }}"></script>
+{% endblock %}

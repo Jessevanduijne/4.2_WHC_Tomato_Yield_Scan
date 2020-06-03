@@ -4,7 +4,6 @@ $('#image-selector').change(function(){
         let dataUrl = reader.result;
         $('#selected-image').attr('src', dataUrl);
         base64Image = dataUrl.replace('data:image/jpeg;base64', '', '')
-        console.log(base64Image)
     }
     reader.readAsDataURL($('#image-selector')[0].files[0]);
 });
@@ -13,7 +12,6 @@ $('#predict-button').click(function(event){
     let message = {
         image: base64Image
     }
-    console.log(message);
     $.post('http://127.0.0.1:5000/predict', JSON.stringify(message), function(response){
         console.log(response);
     });
