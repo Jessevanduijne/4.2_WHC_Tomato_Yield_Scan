@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block grid %}
+
+{% include 'header.html' %}
+
+<div class="row flex-wrap">
+{% for image in images %}
+    <div class="col-3 my-3">
+        <img src="../static/uploads/{{ image }}" alt="image" class="img-fluid">
+        <div class="alert alert-success">
+            Healthy
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

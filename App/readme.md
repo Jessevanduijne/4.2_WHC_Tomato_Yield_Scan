@@ -1,12 +1,12 @@
 # Getting this app to work
 
-install flask and flask-cors
+Install flask and flask-cors
 
 ``pip install flask flask-cors``
 
 From root folder (App) run
 
-``set FLASK_APP=predict_app.py``
+``set FLASK_APP=main.py``
 
 Run flask app on localhost
 

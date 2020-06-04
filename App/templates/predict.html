@@ -1,23 +1,26 @@
 {% extends 'base.html' %}
 {% block title%}WHC - predict {% endblock %}
 {% block content %}
-<div class="row">
+
+{% include 'header.html' %}
+
+<div class="row flex-column mt-4">
     <div class="col">
-        <h1 class="input-title">WHC Tomato Yield Scan</h1>
-        <div class="form-group">
-            <label>Supports only JPG</label>
-            <input type="file" id="image-selector" class="form-control-file">
-            <button id="predict-button" class="btn btn-primary">Predict</button>
-        </div>
-        
+        <form action="/" method="POST" enctype="multipart/form-data"
+            <div class="form-group">
+                <label>Supports only JPG</label>
+                <input type="file" id="image-selector" class="form-control-file py-3" name="image[]" webkitdirectory mozdirectory >
+                <button id="predict-button" type="submit" class="btn btn-primary py-3">Upload and predict</button>
+            </div>
+        </form>
     </div>
 
     <div class="col">
-        <img src="" alt="foto" id="selected-image" class="image">
+        <div class="row">
+            {% block item %}{% endblock %}
+        </div>
     </div>
     
     <h3 id="greeting"></h3>
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="{{ url_for('static', filename='connect.js') }}"></script>
 {% endblock %}
