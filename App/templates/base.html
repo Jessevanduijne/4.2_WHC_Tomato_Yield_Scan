@@ -2,8 +2,11 @@
 <html>
     <head>
         <title>{% block title %}{% endblock %}</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}" />
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-16x16.png') }}" />
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.ico') }}" />
     </head>
     <body>
 

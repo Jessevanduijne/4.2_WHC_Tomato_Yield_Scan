@@ -9,7 +9,7 @@ from keras.models import Sequential
 from keras.models import load_model
 from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing.image import img_to_array
-from flask import request, redirect
+from flask import request, redirect, url_for
 from flask import jsonify
 from flask import Flask, render_template
 from flask_cors import CORS,cross_origin
@@ -32,6 +32,7 @@ def preprocess_image(image, target_size):
     image = np.expand_dims(image, axis=0)
     return image
 
+# Convert from filestorage to filename array
 def gen_list(list):
     images = []
     for item in list:
@@ -60,6 +61,9 @@ def predict():
     }
     return jsonify(response)
 
+def predict_image(images):
+
+
 @app.route("/", methods=["GET", "POST"])
 @cross_origin(origin="*",headers=["Content-Type","Authorization"])
 def render():
@@ -77,7 +81,8 @@ def render():
                 image.save(os.path.join(app.root_path, "static\\uploads",image.filename))
 
             image_list = gen_list(images)
+            list = predict_image(image_list)
             return render_template("image-grid.html", images=image_list)
+            #return redirect(url_for("uploaded", images=image_list))
 
     return render_template("predict.html")
-    
