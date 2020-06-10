@@ -2,10 +2,18 @@
 {% block title%}WHC - predict {% endblock %}
 {% block content %}
 
-<h2>Upload a folder</h2>
 <div class="row flex-column mt-4">
     <div class="col">
-        <form action="/" method="POST" enctype="multipart/form-data"
+        <h2>WHC Tomato Yield Scan</h2>
+        <p>The purpose of this tool, is to recognize 'healty' and 'unhealthy' tomatoes. It uses Convolutional Neural Network (Deep Learning) algorithm to do the prediction. </p>
+        <p>This model has an accuracy of 91% using Transfer Learning (<a href="https://neurohive.io/en/popular-networks/vgg16/" target="_blank">VGG16 block</a>).</p>
+    </div>
+</div>
+
+<div class="row flex-column mt-4">
+    <div class="col">
+        <h3>Upload a folder</h3>
+        <form action="/" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label>Supports only JPG</label>
                 <input type="file" id="image-selector" class="form-control-file py-3" name="image[]" webkitdirectory mozdirectory >

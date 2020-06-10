@@ -3,12 +3,19 @@
 
 <h2>Results</h2>
 <div class="row flex-wrap">
-{% for image in images %}
+{% for key, value in result.items() %}
     <div class="col-3 my-3">
-        <img src="../static/uploads/{{ image }}" alt="image" class="img-fluid">
+        <img src="{{ url_for('static', filename='uploads/') }}{{ key }}" alt="{{ key }}" class="img img-thumbnail">
+        {# check if tomato is unhealthy #}
+        {% if value == 0.0 %}
+        <div class="alert alert-danger">
+            Unhealthy
+        </div>
+        {% else %}
         <div class="alert alert-success">
             Healthy
         </div>
+        {% endif %}
     </div>
 {% endfor %}
 </div>
