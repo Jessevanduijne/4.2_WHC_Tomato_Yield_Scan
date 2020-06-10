@@ -20,6 +20,25 @@ import cv2
 app = Flask(__name__)
 app.config["IMAGE-UPLOADS"] = "C:/Users\Rohan/Downloads/WHC_Tomato_Yield_Scan/App/static/uploads"
 
+# Global summary result array
+# [total images][total healty][total unhealty]
+prediction_summary = {'total': 0, 'healthy': 0, 'unhealthy': 0}
+
+# Increment type of prediction summary
+def edit_total_PS(type):
+    global prediction_summary
+    if type == 'total':
+        prediction_summary['total'] += 1
+    elif type == 'healthy':
+        prediction_summary['healthy'] += 1
+    else:
+        prediction_summary['unhealthy'] += 1
+
+# reset prediction summary array
+def reset_PS():
+    global prediction_summary
+    prediction_summary = {'total': 0, 'healthy': 0, 'unhealthy': 0}
+
 def get_model():
     global model
     model = tf.keras.models.load_model("../Code/model1.h5")
@@ -57,6 +76,7 @@ def resize_image(image, target_width, target_height):
 
 # predict images
 def predict_image(list, folder, model):
+    reset_PS()
     results = {}
     for image in list:
         image_name = image
@@ -67,6 +87,13 @@ def predict_image(list, folder, model):
         image = image.astype('float32')
         prediction = model.predict(image)
         predict_obj = {image_name: prediction[0][0]}
+
+        # Edit prediction summary
+        edit_total_PS('total')
+        if prediction[0][0] == 0.0:
+            edit_total_PS('unhealthy')
+        else:
+            edit_total_PS('healthy')
         results.update(predict_obj)
     return results
 
@@ -81,7 +108,8 @@ def render():
             folder_splt = folder_str.split("/")
             folder = folder_splt[0]
             folder_created_path = os.path.join(app.root_path, "static\\uploads", folder)
-            os.mkdir(folder_created_path)
+            if not os.path.isdir(folder_created_path):
+                os.mkdir(folder_created_path)
 
             images = request.files.getlist("image[]")
             for image in images:
@@ -90,7 +118,7 @@ def render():
 
             image_list = gen_list(images)
             predict_result = predict_image(image_list, folder, model)
-            return render_template("image-grid.html", result=predict_result)
+            return render_template("image-grid.html", result=predict_result, summary=prediction_summary)
 
     return render_template("predict.html")
 
