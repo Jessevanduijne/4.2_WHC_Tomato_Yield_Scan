@@ -120,7 +120,14 @@ def render():
             predict_result = predict_image(image_list, folder, model)
             return render_template("image-grid.html", result=predict_result, summary=prediction_summary)
 
-    return render_template("predict.html")
+    tomatoesPhotos = get_tomatoesPhotos()
+    return render_template("predict.html", tomatoes=tomatoesPhotos)
+
+# Get all tomatoes folder in static
+def get_tomatoesPhotos():
+    path = os.getcwd() + "\\static\\tomatoSlider"
+    list_tomatoes = os.listdir(path)
+    return list_tomatoes
 
 # old, but stil needed for reference
 @app.route("/predict", methods=["POST"])

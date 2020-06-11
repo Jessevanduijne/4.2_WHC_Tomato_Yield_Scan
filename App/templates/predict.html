@@ -2,6 +2,15 @@
 {% block title%}WHC - predict {% endblock %}
 {% block content %}
 
+<div class="tomatoSlider mt-4">
+    {% for photo in tomatoes %}
+    <div>
+        <img src="../static/tomatoSlider/{{photo}}" alt="{{photo}}" class="img img-fluid">
+    </div>
+    {% endfor %}
+</div>
+<script src="{{ url_for('static', filename='tomatoSlider.js') }}"></script>
+
 <div class="row flex-column mt-4">
     <div class="col">
         <h2>WHC Tomato Yield Scan</h2>
