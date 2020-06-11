@@ -1,3 +1,12 @@
+# Requirements
+
+- Python 3.7
+- Flask
+- Flask-cors
+- Tensorflow
+- Keras
+- Pillow
+
 # Getting this app to work
 
 Install flask and flask-cors
@@ -11,3 +20,5 @@ From root folder (App) run
 Run flask app on localhost
 
 ``flask run --host=0.0.0.0``
+
+To get prediction working, you must have our model h5 file and place it in folder Model. this Model folder must be created.

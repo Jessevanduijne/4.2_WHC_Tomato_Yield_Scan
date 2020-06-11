@@ -13,7 +13,7 @@
         <script src="{{ url_for('static', filename='predictChart.js') }}"></script>
     </div>
 </div>
-<h3><a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Show all predicted images</a></h3>
+<h3><a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Toggle all predicted images</a></h3>
 <div class="collapse" id="collapseExample">
     <div class="row flex-wrap">
         {% for key, value in result.items() %}
@@ -22,11 +22,11 @@
                 {# check if tomato is unhealthy #}
                 {% if value == 0.0 %}
                 <div class="alert alert-danger">
-                    Unhealthy
+                    Unhealthy ({{value}})
                 </div>
                 {% else %}
                 <div class="alert alert-success">
-                    Healthy
+                    Healthy ({{value}})
                 </div>
                 {% endif %}
             </div>

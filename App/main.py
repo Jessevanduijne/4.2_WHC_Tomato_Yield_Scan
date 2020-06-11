@@ -41,7 +41,7 @@ def reset_PS():
 
 def get_model():
     global model
-    model = tf.keras.models.load_model("../Code/model1.h5")
+    model = tf.keras.models.load_model("../Model/tomato_vgg16_4.h5")
     print("Model is loaded!")
     return model
 
@@ -81,9 +81,9 @@ def predict_image(list, folder, model):
     for image in list:
         image_name = image
         image_path = os.getcwd() + "\\static\\uploads\\" + image
-        image = load_img(image_path, target_size=(300, 300))
+        image = load_img(image_path, target_size=(224, 224))
         image = img_to_array(image)
-        image = image.reshape(1, 300, 300, 3)
+        image = image.reshape(1, 224, 224, 3)
         image = image.astype('float32')
         prediction = model.predict(image)
         predict_obj = {image_name: prediction[0][0]}
@@ -113,7 +113,7 @@ def render():
 
             images = request.files.getlist("image[]")
             for image in images:
-                resized_image = resize_image(image, target_width=300, target_height=300)
+                resized_image = resize_image(image, target_width=224, target_height=224)
                 resized_image.save(os.path.join(app.root_path, "static\\uploads",image.filename))
 
             image_list = gen_list(images)
