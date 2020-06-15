@@ -1,0 +1,56 @@
+
+
+steps_per_epoch  = batch size training data
+Validation_steps = batch size test data
+
+
+Results:
+
+learning rate = 0.001
+steps_per_epoch:   2
+Validation_steps:  10
+Result accuracy:  0.65
+
+learning rate = 0.001
+steps_per_epoch:   20
+Validation_steps:  5
+Result accuracy:  0.68
+
+learning rate = 0.001
+steps_per_epoch:   len(traindata)
+Validation_steps:  len(validationdata)
+patience: 20
+Result accuracy:  0.65 (?)
+
+tomato_vgg16_1
+learning rate = 0.00005
+steps_per_epoch:   len(traindata)
+Validation_steps:  len(validationdata)
+patience: 20
+Result accuracy:  0.91553
+
+tomato_vgg16_2
+learning rate = 0.0002
+steps_per_epoch:   len(traindata)
+Validation_steps:  len(validationdata)
+patience: 20
+Result accuracy:  0.91781
+
+tomato_vgg16_3
+learning rate = 0.0001
+steps_per_epoch:   len(traindata)
+Validation_steps:  len(validationdata)
+patience: 20
+Result accuracy: 
+	1 try - 0.93151 (unsaved, oops)
+	2 try - 0.90639 (without keras cleared)
+	3 try - 0.92237 (patience 20 -> 30 + keras cleared)
+	
+
+
+tomato_vgg16_4
+learning rate = 0.0001
+steps_per_epoch:   100
+Validation_steps:  20
+patience: 30
+Result accuracy: 0.93710
