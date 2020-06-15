@@ -15,8 +15,10 @@
         <script src="{{ url_for('static', filename='predictChart.js') }}"></script>
     </div>
 </div>
-<h3><a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Toggle all predicted images</a></h3>
-<a href="{{ url_for('render') }}">Predict another set</a>
+<h3><a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="badge badge-pill badge-success">Toggle all predicted images</a></h3>
+<div class="text-right">
+    <a href="{{ url_for('render') }}" class="badge badge-pill badge-dark">Predict another set</a>
+</div>
 <div class="collapse" id="collapseExample">
     <div class="row flex-wrap">
         {% for key, value in result.items() %}
