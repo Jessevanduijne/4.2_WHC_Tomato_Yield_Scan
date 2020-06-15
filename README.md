@@ -3,7 +3,7 @@ Project Big Data - Inholland University of Applied sciences
 
 ### Goal
 
-Recognizing 'healty' or 'unhealthy' tomatoes by using Deep Learning techniques
+Recognizing 'healthy' or 'unhealthy' tomatoes by using Deep Learning techniques
 
 ### Used Framework 
 
