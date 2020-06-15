@@ -100,8 +100,8 @@ def predict_image(list, folder, model):
 @app.route("/", methods=["GET", "POST"])
 @cross_origin(origin="*",headers=["Content-Type","Authorization"])
 def render():
-    model = get_model()
     if request.method == "POST":
+        model = get_model()
         if request.files:
             # create folder in uploads
             folder_str = request.files["image[]"].filename
