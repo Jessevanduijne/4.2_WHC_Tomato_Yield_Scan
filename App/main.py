@@ -21,7 +21,7 @@ app = Flask(__name__)
 app.config["IMAGE-UPLOADS"] = "C:/Users\Rohan/Downloads/WHC_Tomato_Yield_Scan/App/static/uploads"
 
 # Global summary result array
-# [total images][total healty][total unhealty]
+# [total images][total healthy][total unhealthy]
 prediction_summary = {'total': 0, 'healthy': 0, 'unhealthy': 0}
 
 # Increment type of prediction summary

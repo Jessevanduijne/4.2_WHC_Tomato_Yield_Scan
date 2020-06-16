@@ -1,2 +1,6 @@
 Dataset/
 Model/
+Notebooks/Sample_Code_Jesse
+/App/__pycache__
+/Notebooks/.ipynb_checkpoints
+/App/static/uploads
