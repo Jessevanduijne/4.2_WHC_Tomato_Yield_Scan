@@ -2,7 +2,7 @@
 {% block title%}WHC - predict {% endblock %}
 {% block content %}
 
-<div class="tomatoSlider mt-4">
+<div class="tomatoSlider">
     {% for photo in tomatoes %}
     <div>
         <img src="../static/tomatoSlider/{{photo}}" alt="{{photo}}" class="img img-fluid">
@@ -11,32 +11,36 @@
 </div>
 <script src="{{ url_for('static', filename='tomatoSlider.js') }}"></script>
 
-<div class="row flex-column mt-4">
-    <div class="col">
-        <h2>WHC Tomato Yield Scan</h2>
-        <p>The purpose of this tool, is to recognize 'healthy' and 'unhealthy' tomatoes. It uses Convolutional Neural Network (Deep Learning) algorithm to do the prediction. </p>
-        <p>This model has an accuracy of 91% using Transfer Learning (<a href="https://neurohive.io/en/popular-networks/vgg16/" target="_blank">VGG16 block</a>).</p>
-    </div>
-</div>
+{% include 'navbar.html' %}
 
-<div class="row flex-column mt-4">
-    <div class="col">
+<div class="position-absolute predict">
+    <h2>WHC Tomato Yield Scan</h2>
+    <p>The purpose of this tool, is to recognize 'healthy' and 'unhealthy' tomatoes. It uses Convolutional Neural Network (Deep Learning) algorithm to do the prediction. </p>
+    <p>This model has an accuracy of 91% using Transfer Learning (<a href="https://neurohive.io/en/popular-networks/vgg16/" target="_blank">VGG16 block</a>).</p>
+    <hr>
+    <div class="predict-model">
         <h3>Upload a folder</h3>
         <form action="/" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label>Supports only JPG</label>
-                <input type="file" id="image-selector" class="form-control-file py-3" name="image[]" webkitdirectory mozdirectory >
-                <button id="predict-button" type="submit" class="btn btn-primary py-3">Upload and predict</button>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <button class="input-group-text bg-danger text-white" id="inputGroupFileAddon01" type="submit">Upload</button>
+                    </div>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="image-selector" name="image[]" aria-describedby="inputGroupFileAddon01" webkitdirectory mozdirectory>
+                      <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                  </div>              
             </div>
         </form>
     </div>
+</div>
 
     <div class="col">
         <div class="row">
             {% block item %}{% endblock %}
         </div>
     </div>
-    
-    <h3 id="greeting"></h3>
 </div>
 {% endblock %}
