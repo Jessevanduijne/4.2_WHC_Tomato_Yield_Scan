@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS predictions;
+DROP TABLE IF EXISTS results;
 
-CREATE TABLE predicitons (
+CREATE TABLE results (
     id INTEGER PRIMARY KEY AUTOINCREMENT
 );

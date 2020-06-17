@@ -1,17 +1,12 @@
-import sys
 import os
-import cv2
-import numpy as np
-import io
-import tensorflow as tf
 
-from tensorflow import keras
-from keras import backend as K
-from keras.models import Sequential, load_model
-from keras.preprocessing.image import ImageDataGenerator, img_to_array, load_img
-from flask import current_app, request, redirect, url_for, jsonify, render_template, Blueprint, flash, g, session
+from flask import app, Blueprint, current_app, request, render_template, g
 from flask_cors import CORS, cross_origin
+
 from PIL import Image
+from keras.preprocessing.image import load_img, img_to_array
+
+from .model import get_model
 
 bp = Blueprint("predict", __name__, url_prefix="/")
 
@@ -33,12 +28,6 @@ def edit_total_PS(type):
 def reset_PS():
     global prediction_summary
     prediction_summary = {'total': 0, 'healthy': 0, 'unhealthy': 0}
-
-def get_model():
-    global model
-    model = tf.keras.models.load_model(current_app.config["MODEL"])
-    print("Model is loaded!")
-    return model
 
 # Convert from filestorage list to filename array
 def gen_list(list):
@@ -70,7 +59,7 @@ def resize_image(image, target_width, target_height):
     return background.convert('RGB')
 
 # predict images
-def predict_image(list, folder, model):
+def predict_image(list, folder):
     reset_PS()
     results = {}
     for image in list:
@@ -80,7 +69,7 @@ def predict_image(list, folder, model):
         image = img_to_array(image)
         image = image.reshape(1, 224, 224, 3)
         image = image.astype('float32')
-        prediction = model.predict(image)
+        prediction = get_model().predict(image)
         predict_obj = {image_name: prediction[0][0]}
 
         # Edit prediction summary
@@ -102,9 +91,7 @@ def get_tomatoesPhotos():
 @bp.route("/", methods=["GET", "POST"])
 @cross_origin(origin="*", headers=["Content-Type","Authorization"])
 def index():
-    model = get_model()
     if request.method == "POST":
-        model = get_model()
         if request.files:
             # create folder in uploads
             folder_str = request.files["image[]"].filename
@@ -120,7 +107,7 @@ def index():
                 resized_image.save(os.path.join(current_app.config["IMAGE_UPLOADS"], image.filename))
 
             image_list = gen_list(images)
-            predict_result = predict_image(image_list, folder, model)
+            predict_result = predict_image(image_list, folder)
             return render_template("predict/result.html", result=predict_result, summary=prediction_summary)
 
     tomatoesPhotos = get_tomatoesPhotos()
