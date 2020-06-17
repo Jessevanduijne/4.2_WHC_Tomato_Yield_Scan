@@ -15,16 +15,12 @@ def createDirectory(directoryName):
 
     return directory
 
-def transformImages(directory):
-    files = os.listdir(directory)
+def transformImages(images):
+    for i in images:
+        resizedImage = resizeImage(i, 224, 224)
+        resizedImage.save(os.path.join(current_app.config["IMAGE_UPLOADS"], i.filename))
 
-    for file in files:
-        image = os.path.join(current_app.config["IMAGE_UPLOADS"], directory, file)
-
-        resizedImage = resizeImage(image, 224, 224)
-        resizedImage.save(image)
-
-    return np.vstack([directory.split("\\")[-1] + '/' + f for f in files])
+    return np.vstack([i.filename for i in images])
 
 # resize images while keeping their aspect ratio
 def resizeImage(image, targetWidth, targetHeight):

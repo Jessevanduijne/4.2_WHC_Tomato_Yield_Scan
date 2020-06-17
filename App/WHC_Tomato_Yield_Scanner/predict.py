@@ -15,7 +15,7 @@ def index():
     if request.method == "POST":
         if request.files:
             directory = helpers.createDirectory(request.files["image[]"].filename)
-            files = helpers.transformImages(directory)[:,0]
+            files = helpers.transformImages(request.files.getlist("image[]"))
             input = helpers.prepareImagesForPrediction(directory)
             result = get_model().predict(input)[:,0]
 
