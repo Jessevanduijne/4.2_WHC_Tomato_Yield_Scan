@@ -1,24 +1,19 @@
-import numpy as np
-import io
-from PIL import Image
-import tensorflow as tf
-from tensorflow import keras
-from keras import backend as K
-from keras.models import Sequential
-from keras.models import load_model
-from keras.preprocessing.image import ImageDataGenerator
-from keras.preprocessing.image import img_to_array
-from keras.preprocessing.image import load_img
-from flask import request, redirect, url_for
-from flask import jsonify
-from flask import Flask, render_template
-from flask_cors import CORS,cross_origin
 import sys
 import os
 import cv2
+import numpy as np
+import io
+import tensorflow as tf
 
-app = Flask(__name__)
-app.config["IMAGE-UPLOADS"] = "C:/Users\Rohan/Downloads/WHC_Tomato_Yield_Scan/App/static/uploads"
+from tensorflow import keras
+from keras import backend as K
+from keras.models import Sequential, load_model
+from keras.preprocessing.image import ImageDataGenerator, img_to_array, load_img
+from flask import current_app, request, redirect, url_for, jsonify, render_template, Blueprint, flash, g, session
+from flask_cors import CORS, cross_origin
+from PIL import Image
+
+bp = Blueprint("predict", __name__, url_prefix="/")
 
 # Global summary result array
 # [total images][total healthy][total unhealthy]
@@ -41,7 +36,7 @@ def reset_PS():
 
 def get_model():
     global model
-    model = tf.keras.models.load_model("../Model/tomato_vgg16_4.h5")
+    model = tf.keras.models.load_model(current_app.config["MODEL"])
     print("Model is loaded!")
     return model
 
@@ -80,7 +75,7 @@ def predict_image(list, folder, model):
     results = {}
     for image in list:
         image_name = image
-        image_path = os.getcwd() + "\\static\\uploads\\" + image
+        image_path = current_app.config["IMAGE_UPLOADS"] + image
         image = load_img(image_path, target_size=(224, 224))
         image = img_to_array(image)
         image = image.reshape(1, 224, 224, 3)
@@ -97,9 +92,16 @@ def predict_image(list, folder, model):
         results.update(predict_obj)
     return results
 
-@app.route("/", methods=["GET", "POST"])
-@cross_origin(origin="*",headers=["Content-Type","Authorization"])
-def render():
+
+# Get all tomatoes folder in static
+def get_tomatoesPhotos():
+    path = current_app.root_path + "\\static\\tomatoSlider"
+    list_tomatoes = os.listdir(path)
+    return list_tomatoes
+
+@bp.route("/", methods=["GET", "POST"])
+@cross_origin(origin="*", headers=["Content-Type","Authorization"])
+def index():
     model = get_model()
     if request.method == "POST":
         if request.files:
@@ -107,43 +109,18 @@ def render():
             folder_str = request.files["image[]"].filename
             folder_splt = folder_str.split("/")
             folder = folder_splt[0]
-            folder_created_path = os.path.join(app.root_path, "static\\uploads", folder)
+            folder_created_path = os.path.join(current_app.config["IMAGE_UPLOADS"], folder)
             if not os.path.isdir(folder_created_path):
                 os.mkdir(folder_created_path)
 
             images = request.files.getlist("image[]")
             for image in images:
                 resized_image = resize_image(image, target_width=224, target_height=224)
-                resized_image.save(os.path.join(app.root_path, "static\\uploads",image.filename))
+                resized_image.save(os.path.join(current_app.config["IMAGE_UPLOADS"], image.filename))
 
             image_list = gen_list(images)
             predict_result = predict_image(image_list, folder, model)
-            return render_template("image-grid.html", result=predict_result, summary=prediction_summary)
+            return render_template("predict/result.html", result=predict_result, summary=prediction_summary)
 
     tomatoesPhotos = get_tomatoesPhotos()
-    return render_template("predict.html", tomatoes=tomatoesPhotos)
-
-# Get all tomatoes folder in static
-def get_tomatoesPhotos():
-    path = os.getcwd() + "\\static\\tomatoSlider"
-    list_tomatoes = os.listdir(path)
-    return list_tomatoes
-
-# old, but stil needed for reference
-@app.route("/predict", methods=["POST"])
-@cross_origin(origin="*",headers=["Content-Type","Authorization"])
-def predict():
-    message = request.get_json(force=True)
-    encoded = message["image"]
-    decoded = base64.b64decode(encoded)
-    image = Image.open(io.BytesIO(decoded))
-    processed_image = preprocess_image(image, target_size=(300, 300))
-
-    prediction = model.predict(processed_image).tolist()
-    print(prediction, file=sys.stderr)
-    response = {
-        "prediction": {
-            "value": prediction[0][0]
-        }
-    }
-    return jsonify(response)
+    return render_template("predict/predict.html", tomatoes=tomatoesPhotos)

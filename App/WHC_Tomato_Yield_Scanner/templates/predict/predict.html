@@ -5,7 +5,7 @@
 <div class="tomatoSlider mt-4">
     {% for photo in tomatoes %}
     <div>
-        <img src="../static/tomatoSlider/{{photo}}" alt="{{photo}}" class="img img-fluid">
+        <img src="{{ url_for('static', filename='tomatoslider/'+photo) }}" alt="{{photo}}" class="img img-fluid">
     </div>
     {% endfor %}
 </div>

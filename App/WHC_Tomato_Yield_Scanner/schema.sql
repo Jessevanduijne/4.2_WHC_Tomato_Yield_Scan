@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS predictions;
+
+CREATE TABLE predicitons (
+    id INTEGER PRIMARY KEY AUTOINCREMENT
+);
