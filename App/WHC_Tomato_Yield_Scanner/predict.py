@@ -95,7 +95,7 @@ def predict_image(list, folder, model):
 
 # Get all tomatoes folder in static
 def get_tomatoesPhotos():
-    path = current_app.root_path + "\\static\\tomatoSlider"
+    path = current_app.root_path + "\\static\\img\\tomatoSlider"
     list_tomatoes = os.listdir(path)
     return list_tomatoes
 
