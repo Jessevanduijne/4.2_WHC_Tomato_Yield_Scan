@@ -104,6 +104,7 @@ def get_tomatoesPhotos():
 def index():
     model = get_model()
     if request.method == "POST":
+        model = get_model()
         if request.files:
             # create folder in uploads
             folder_str = request.files["image[]"].filename
