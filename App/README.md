@@ -20,7 +20,7 @@ From root folder (App) run
 
 Initialise the database with
 
-``flask init-dbflask init-db``
+``flask init-db``
 
 Run Flask app
 

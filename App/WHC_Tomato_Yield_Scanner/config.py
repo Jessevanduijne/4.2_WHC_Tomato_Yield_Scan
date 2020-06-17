@@ -5,6 +5,6 @@ FLASK_ENV="development"
 DEBUG=True
 
 ROOT=os.getcwd()
-DATABASE=ROOT + "db.sqlite"
+DATABASE=ROOT + "\\db.sqlite"
 IMAGE_UPLOADS=os.path.join(ROOT, "WHC_Tomato_Yield_Scanner\\static\\uploads\\")
 MODEL=os.path.join(ROOT, "..\\Model\\") + "tomato_vgg16_4.h5"
