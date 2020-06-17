@@ -17,13 +17,13 @@
 </div>
 <h3><a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="badge badge-pill badge-success">Toggle all predicted images</a></h3>
 <div class="text-right">
-    <a href="{{ url_for('render') }}" class="badge badge-pill badge-dark">Predict another set</a>
+    <a href="{{ url_for('predict.index') }}" class="badge badge-pill badge-dark">Predict another set</a>
 </div>
 <div class="collapse" id="collapseExample">
     <div class="row flex-wrap">
         {% for key, value in result.items() %}
             <div class="col-3 my-3">
-                <img src="{{ url_for('static', filename='uploads/'+key) }}" alt="{{ key }}" class="img img-thumbnail">
+                <img src="{{ url_for('static', filename='uploads/') }}{{ key }}" alt="{{ key }}" class="img img-thumbnail">
                 {# check if tomato is unhealthy #}
                 {% if value == 0.0 %}
                 <div class="alert alert-danger">
