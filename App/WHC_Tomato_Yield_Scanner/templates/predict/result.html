@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
-{% block grid %}
-
 {% include 'navbar.html' %}
+{% block grid %}
 
 <h2 class="results">Results</h2>
 <div class="hidden-data d-none">
@@ -21,18 +20,18 @@
 </div>
 <div class="collapse" id="collapseExample">
     <div class="row flex-wrap">
-        {% for key, value in result.items() %}
+        {% for row in result %}
             <div class="col-3 my-3">
-                <img src="{{ url_for('static', filename='uploads/') }}{{ key }}" alt="{{ key }}" class="img img-thumbnail">
+                <img src="{{ url_for('static', filename='uploads/') }}{{ row[0] }}" alt="{{ row[0] }}" class="img img-thumbnail">
                 {# check if tomato is unhealthy #}
-                {% if value == 0.0 %}
-                <div class="alert alert-danger">
-                    Unhealthy ({{value}})
-                </div>
+                {% if row[1]|float < 0.5 %}
+                    <div class="alert alert-danger">
+                        Unhealthy ({{row[1]}})
+                    </div>
                 {% else %}
-                <div class="alert alert-success">
-                    Healthy ({{value}})
-                </div>
+                    <div class="alert alert-success">
+                        Healthy ({{row[1]}})
+                    </div>
                 {% endif %}
             </div>
         {% endfor %}

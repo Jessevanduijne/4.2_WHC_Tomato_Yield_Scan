@@ -2,16 +2,16 @@
 {% block title%}WHC - predict {% endblock %}
 {% block content %}
 
+{% include 'navbar.html' %}
+
+<script src="{{ url_for('static', filename='js/tomatoSlider.js') }}"></script>
 <div class="tomatoSlider">
-    {% for photo in tomatoes %}
-    <div>
-        <img src="../static/img/tomatoSlider/{{photo}}" alt="{{photo}}" class="img img-fluid">
-    </div>
+    {% for photo in sliderPhotos %}
+        <div>
+            <img src="{{ url_for('static', filename='img/tomatoSlider/'+photo) }}" alt="{{photo}}" class="img img-fluid">
+        </div>
     {% endfor %}
 </div>
-<script src="{{ url_for('static', filename='js/tomatoSlider.js') }}"></script>
-
-{% include 'navbar.html' %}
 
 <div class="position-absolute predict">
     <h2>WHC Tomato Yield Scan</h2>
@@ -39,8 +39,10 @@
 
     <div class="col">
         <div class="row">
-            {% block item %}{% endblock %}
+            {% block item %}
+            {% endblock %}
         </div>
     </div>
 </div>
+
 {% endblock %}
