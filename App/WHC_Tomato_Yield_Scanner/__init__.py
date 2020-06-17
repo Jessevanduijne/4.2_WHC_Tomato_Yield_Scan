@@ -6,11 +6,6 @@ def create_app(test_config = None):
     app = Flask(__name__)
     app.config.from_pyfile("config.py")
 
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
-
     from . import db
     db.init_app(app)
 
