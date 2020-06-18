@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-from flask import app, Blueprint, current_app, request, render_template, g, redirect
+from flask import app, Blueprint, current_app, request, render_template, g, redirect, session
 from flask_cors import CORS, cross_origin
 
 from .model import get_model
