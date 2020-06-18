@@ -48,13 +48,20 @@ def getResult(unique_id):
         (unique_id,)
     ).fetchone()
 
-def insertResult(files, result):
+def getResults(session_id):
+    db = get_db()
+    return db.execute(
+        "SELECT * FROM results WHERE session_id = ? LIMIT 10",
+        (session_id,)
+    ).fetchall()
+
+def insertResult(files, values):
     unique_id = helpers.generateRandomString(20)
 
     db = get_db()
     db.execute(
         "INSERT INTO results (unique_id, session_id, files_dtype, files, val, percent_healthy) VALUES (?, ?, ?, ?, ?, ?)",
-        (unique_id, session.get("id"), files.dtype.str, files.tostring(), result.tostring(), (result>current_app.config["TOMATO_HEALTHY_PERCENTAGE"]).sum()/result.size)
+        (unique_id, session.get("id"), files.dtype.str, files.tostring(), values.tostring(), helpers.calculateHealthyPercentage(values))
     )
     db.commit()
 

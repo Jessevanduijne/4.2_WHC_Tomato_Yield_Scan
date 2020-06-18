@@ -64,3 +64,6 @@ def imageToArray(image):
 
 def generateRandomString(length):
     return "".join(secrets.choice(string.ascii_uppercase + string.digits) for i in range(length))
+
+def calculateHealthyPercentage(values):
+    return (values>current_app.config["TOMATO_HEALTHY_PERCENTAGE"]).sum()/values.size
