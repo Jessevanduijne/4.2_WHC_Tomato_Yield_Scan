@@ -25,7 +25,7 @@
 
 <h3><a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="badge badge-pill badge-success">Toggle all predicted images</a></h3>
 <div class="text-right">
-    <a href="mailto:adress@mail.com?subject=WHC%20prediction%20result&body=To%20view%20the%20prediction,%20please%20paste%20the%20following%20URL%20in%20your%20prefered%20webbrowser%3A%0D%0A%0Dlocalhost%3A5000%2Fresults%2F{{ result['unique_id'] }}" 
+    <a href="mailto:adress@mail.com?subject=WHC%20prediction%20result&body=To%20view%20the%20prediction,%20please%20paste%20the%20following%20URL%20in%20your%20preferred%20web%20browser%3A%0D%0A%0Dhttp%3A%eF%2Flocalhost%3A5000%2Fresults%2F{{ result['unique_id'] }}" 
     class="badge badge-primary">Share this prediction</a>
     <a href="{{ url_for('predict.index') }}" class="badge badge-pill badge-dark">Predict another set</a>
 </div>
