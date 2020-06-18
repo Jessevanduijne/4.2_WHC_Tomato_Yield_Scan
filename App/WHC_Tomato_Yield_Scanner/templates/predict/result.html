@@ -35,7 +35,7 @@
             <div class="col-3 my-3">
                 <img src="{{ url_for('static', filename='uploads/') }}{{ file }}" alt="{{ file }}" class="img img-thumbnail">
                 {# check if tomato is unhealthy #}
-                {% if value <= config["TOMATO_HEALTHY_PERCENTAGE"] %}
+                {% if value > config["TOMATO_HEALTHY_PERCENTAGE"] %}
                     <div class="alert alert-danger">
                         Unhealthy ({{value}})
                     </div>

@@ -54,8 +54,8 @@ def result(unique_id):
             "unique_id": unique_id,
 
             "total": values.size,
-            "healthy": sum(i > current_app.config["TOMATO_HEALTHY_PERCENTAGE"] for i in values),
-            "unhealthy": sum(i <= current_app.config["TOMATO_HEALTHY_PERCENTAGE"] for i in values),
+            "healthy": sum(i <= current_app.config["TOMATO_HEALTHY_PERCENTAGE"] for i in values),
+            "unhealthy": sum(i > current_app.config["TOMATO_HEALTHY_PERCENTAGE"] for i in values),
 
             "unique_ids": json.dumps([h["unique_id"] for h in history]),
             "healthy_percentages": json.dumps([int(h["percent_healthy"]*100) for h in history]),
