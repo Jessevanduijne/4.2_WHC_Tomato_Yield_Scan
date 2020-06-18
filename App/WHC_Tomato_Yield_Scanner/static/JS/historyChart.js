@@ -8,7 +8,7 @@ var historyChart = new Chart(ctx.getContext("2d"), {
     "data": { 
         "labels": historyLabels,
         "datasets": [{ 
-            "label": "Latest Results", 
+            "label": "Your Latest Results", 
             "data": historyData, 
             "fill": false,
             "borderColor": "rgb(75, 192, 192)", 
@@ -24,20 +24,29 @@ var historyChart = new Chart(ctx.getContext("2d"), {
         },
         elements: {
             point: {
-                radius: highlighted,
+                radius: function (context) {
+                    var index = context.dataIndex;
+                
+                    return historyLabels[index] === unique_id ? 10 : 2;
+                },
                 display: true
+            }
+        },
+        tooltips: {
+            callbacks: {
+                label: function(tooltipItem, data) {
+                    return "Healthy Yield: " + tooltipItem.value;
+                }
             }
         }
     }
 });
 
-function highlighted(context) {
-    var index = context.dataIndex;
-
-    return historyLabels[index] === unique_id ? 10 : 2;
-}
-
 ctx.onclick = function(e) {
     var point = historyChart.getElementAtEvent(e)[0];
-    window.location = "/results/"+historyLabels[point._index];
+    var pointUniqueId = historyLabels[point._index];
+    
+    if (unique_id !== pointUniqueId) {
+        window.location = "/results/"+pointUniqueId;
+    }
 };
