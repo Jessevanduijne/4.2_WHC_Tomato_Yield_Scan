@@ -24,6 +24,7 @@
     left: 0;
     width: 100%;
     background-color: rgba(52, 58, 64, .8);
+    z-index: 1;
 }
 
 .brand-logo {
