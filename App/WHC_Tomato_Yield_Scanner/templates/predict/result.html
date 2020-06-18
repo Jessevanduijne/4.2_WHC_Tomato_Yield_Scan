@@ -2,8 +2,9 @@
 {% include 'navbar.html' %}
 {% block grid %}
 
-<h2 class="results">Result {{ unique_id }}</h2>
-<h6>{{ (jsData["healthy"] / jsData["total"] * 100)|int }}% of your tomatoes are healthy</h6>
+<h2 class="results">Result {{ result["unique_id"] }}</h2>
+<h6>Taken at: {{ result["result_date"] }}</h6>
+<h6>{{ result["percent_healthy"] }}% of these tomatoes are healthy</h6>
 
 <div class="hidden-data d-none">
     {% for key, value in jsData.items() %}
@@ -11,7 +12,7 @@
     {% endfor %}
 </div>
 
-<div class="row my-4">
+<div class="row mx-0 my-4">
     <div class="col">
         <canvas id="predictChart"></canvas>
         <script src="{{ url_for('static', filename='js/predictChart.js') }}"></script>
@@ -28,17 +29,17 @@
 </div>
 <div class="collapse" id="collapseExample">
     <div class="row flex-wrap">
-        {% for row in result %}
+        {% for file, value in result["predictions"].items() %}
             <div class="col-3 my-3">
-                <img src="{{ url_for('static', filename='uploads/') }}{{ row[0] }}" alt="{{ row[0] }}" class="img img-thumbnail">
+                <img src="{{ url_for('static', filename='uploads/') }}{{ file }}" alt="{{ file }}" class="img img-thumbnail">
                 {# check if tomato is unhealthy #}
-                {% if row[1]|float <= config["TOMATO_HEALTHY_PERCENTAGE"] %}
+                {% if value <= config["TOMATO_HEALTHY_PERCENTAGE"] %}
                     <div class="alert alert-danger">
-                        Unhealthy ({{row[1]}})
+                        Unhealthy ({{value}})
                     </div>
                 {% else %}
                     <div class="alert alert-success">
-                        Healthy ({{row[1]}})
+                        Healthy ({{value}})
                     </div>
                 {% endif %}
             </div>

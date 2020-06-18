@@ -34,22 +34,29 @@ def predict():
 
 @bp.route("/results/<unique_id>", methods=["GET"])
 def result(unique_id):
-    result = getResult(escape(unique_id))
-    history = getResults(session.get("id"))
+    session_id = session.get("id")
 
+    result = getResult(escape(unique_id))
+    history = getResults(session_id)
+
+    files = np.fromstring(result["files"], np.dtype(result["files_dtype"]))
     values = np.fromstring(result["val"], np.dtype("float32"))
 
     return render_template("predict/result.html",
-        unique_id = unique_id,
-        result = np.column_stack([
-            np.fromstring(result["files"], np.dtype(result["files_dtype"])), 
-            values
-        ]),
+        result = {
+            "unique_id": unique_id,
+            "session_id": session_id,
+            "predictions": dict(zip(files, values)),
+            "percent_healthy": int(result["percent_healthy"]*100),
+            "result_date": result["result_date"]
+        },
         jsData = {
             "unique_id": unique_id,
+
             "total": values.size,
-            "unhealthy": sum(i <= current_app.config["TOMATO_HEALTHY_PERCENTAGE"] for i in values),
             "healthy": sum(i > current_app.config["TOMATO_HEALTHY_PERCENTAGE"] for i in values),
+            "unhealthy": sum(i <= current_app.config["TOMATO_HEALTHY_PERCENTAGE"] for i in values),
+
             "unique_ids": json.dumps([h["unique_id"] for h in history]),
             "healthy_percentages": json.dumps([h["percent_healthy"]*100 for h in history])
         }

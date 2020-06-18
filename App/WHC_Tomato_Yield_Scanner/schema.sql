@@ -7,5 +7,6 @@ CREATE TABLE results (
     files_dtype TEXT,
     files BLOB,
     val BLOB,
-    percent_healthy REAL
+    percent_healthy REAL,
+    result_date TIMESTAMP
 );

@@ -1,6 +1,7 @@
 import sqlite3
 import click
 import numpy as np
+import datetime
 
 from flask import current_app, g, session
 from flask.cli import with_appcontext
@@ -60,8 +61,8 @@ def insertResult(files, values):
 
     db = get_db()
     db.execute(
-        "INSERT INTO results (unique_id, session_id, files_dtype, files, val, percent_healthy) VALUES (?, ?, ?, ?, ?, ?)",
-        (unique_id, session.get("id"), files.dtype.str, files.tostring(), values.tostring(), helpers.calculateHealthyPercentage(values))
+        "INSERT INTO results (unique_id, session_id, files_dtype, files, val, percent_healthy, result_date) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        (unique_id, session.get("id"), files.dtype.str, files.tostring(), values.tostring(), helpers.calculateHealthyPercentage(values), datetime.datetime.now())
     )
     db.commit()
 
