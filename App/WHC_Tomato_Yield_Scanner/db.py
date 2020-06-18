@@ -1,5 +1,6 @@
 import sqlite3
 import click
+import numpy as np
 
 from flask import current_app, g, session
 from flask.cli import with_appcontext
@@ -40,13 +41,20 @@ def init_db_command():
     click.echo("Initializing the database...")
     init_db()
 
+def getResult(unique_id):
+    db = get_db()
+    return db.execute(
+        "SELECT * FROM results WHERE unique_id = ?",
+        (unique_id,)
+    ).fetchone()
+
 def insertResult(files, result):
     unique_id = helpers.generateRandomString(20)
-    
+
     db = get_db()
     db.execute(
-        "INSERT INTO results (unique_id, session_id, files, val, percent_healthy) VALUES (?, ?, ?, ?, ?)",
-        (unique_id, session.get("id"), files.tostring(), result.tostring(), (result>current_app.config["TOMATO_HEALTHY_PERCENTAGE"]).sum()/result.size)
+        "INSERT INTO results (unique_id, session_id, files_dtype, files, val, percent_healthy) VALUES (?, ?, ?, ?, ?, ?)",
+        (unique_id, session.get("id"), files.dtype.str, files.tostring(), result.tostring(), (result>current_app.config["TOMATO_HEALTHY_PERCENTAGE"]).sum()/result.size)
     )
     db.commit()
 
