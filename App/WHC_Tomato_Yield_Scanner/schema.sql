@@ -4,6 +4,7 @@ CREATE TABLE results (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     unique_id TEXT,
     session_id TEXT,
-    files BLOB,
-    val BLOB
+    files TEXT,
+    val TEXT,
+    percent_healthy REAL
 );

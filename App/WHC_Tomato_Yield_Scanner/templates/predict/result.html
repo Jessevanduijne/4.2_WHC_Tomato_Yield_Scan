@@ -24,7 +24,7 @@
             <div class="col-3 my-3">
                 <img src="{{ url_for('static', filename='uploads/') }}{{ row[0] }}" alt="{{ row[0] }}" class="img img-thumbnail">
                 {# check if tomato is unhealthy #}
-                {% if row[1]|float < 0.5 %}
+                {% if row[1]|float <= config["TOMATO_HEALTHY_PERCENTAGE"] %}
                     <div class="alert alert-danger">
                         Unhealthy ({{row[1]}})
                     </div>

@@ -1,7 +1,10 @@
 import sqlite3
 import click
-from flask import current_app, g
+
+from flask import current_app, g, session
 from flask.cli import with_appcontext
+
+from . import helpers
 
 def init_app(app):
     app.teardown_appcontext(close_db)
@@ -36,3 +39,11 @@ def init_db_command():
     # Clear the existing data and create new tables.
     click.echo("Initializing the database...")
     init_db()
+
+def insertResult(files, result):
+    db = get_db()
+    db.execute(
+        "INSERT INTO results (unique_id, session_id, files, val, percent_healthy) VALUES (?, ?, ?, ?, ?)",
+        (helpers.generateRandomString(20), session.get("id"), files.tostring(), result.tostring(), (result>current_app.config["TOMATO_HEALTHY_PERCENTAGE"]).sum())
+    )
+    db.commit()
