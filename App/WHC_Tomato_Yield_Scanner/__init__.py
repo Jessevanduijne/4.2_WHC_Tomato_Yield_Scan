@@ -1,8 +1,8 @@
 import os
-import secrets
-import string
 
 from flask import Flask, app, current_app, session
+
+from . import helpers
 
 def create_app(test_config = None):
     # create and configure the app
@@ -12,7 +12,7 @@ def create_app(test_config = None):
     @app.before_request
     def make_session_permanent():
         if session.get("id") == None:
-            session["id"] = "".join(secrets.choice(string.ascii_uppercase + string.digits) for i in range(20))
+            session["id"] = helpers.generateRandomString(20)
             session.permanent = True
 
     from . import db, model
