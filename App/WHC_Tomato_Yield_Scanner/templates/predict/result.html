@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% include 'navbar.html' %}
+{% block grid %}
+
+<h2 class="results">Result {{ result["unique_id"] }}</h2>
+<h6>Taken at: {{ result["result_date"].strftime("%Y-%m-%d %H:%M") }}</h6>
+<h6>{{ result["percent_healthy"] }}% of these tomatoes are healthy</h6>
+
+<div class="hidden-data d-none">
+    {% for key, value in jsData.items() %}
+        <label id="JS-{{key}}">{{value}}</label>
+    {% endfor %}
+</div>
+
+<div class="row mx-0 my-4">
+    <div class="col-sm-12 col-md-6">
+        <canvas id="predictChart"></canvas>
+        <script src="{{ url_for('static', filename='js/predictChart.js') }}"></script>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <canvas id="historyChart"></canvas>
+        <script src="{{ url_for('static', filename='js/historyChart.js') }}"></script>
+    </div>
+</div>
+
+<h3><a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="badge badge-pill badge-success">Toggle all predicted images</a></h3>
+<div class="text-right">
+    <a href="mailto:adress@mail.com?subject=WHC%20prediction%20result&body=To%20view%20the%20prediction,%20please%20paste%20the%20following%20URL%20in%20your%20prefered%20webbrowser%3A%0D%0A%0Dlocalhost%3A5000%2Fresults%2F{{ result['unique_id'] }}" 
+    class="badge badge-primary">Share this prediction</a>
+    <a href="{{ url_for('predict.index') }}" class="badge badge-pill badge-dark">Predict another set</a>
+</div>
+<div class="collapse" id="collapseExample">
+    <div class="row flex-wrap">
+        {% for file, value in result["predictions"].items() %}
+            <div class="col-3 my-3">
+                <img src="{{ url_for('static', filename='uploads/') }}{{ file }}" alt="{{ file }}" class="img img-thumbnail">
+                {# check if tomato is unhealthy #}
+                {% if value > config["TOMATO_HEALTHY_PERCENTAGE"] %}
+                    <div class="alert alert-danger">
+                        Unhealthy ({{value}})
+                    </div>
+                {% else %}
+                    <div class="alert alert-success">
+                        Healthy ({{value}})
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
