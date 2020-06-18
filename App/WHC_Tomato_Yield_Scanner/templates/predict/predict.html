@@ -15,9 +15,48 @@
 
 <div class="position-absolute predict">
     <h2>WHC Tomato Yield Scan</h2>
-    <p>The purpose of this tool, is to recognize 'healthy' and 'unhealthy' tomatoes. It uses Convolutional Neural Network (Deep Learning) algorithm to do the prediction. </p>
-    <p>This model has an accuracy of 91% using Transfer Learning (<a href="https://neurohive.io/en/popular-networks/vgg16/" target="_blank">VGG16 block</a>).</p>
-    <hr>
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">About this tool</button>
+                </h5>
+            </div>
+            <div class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" id="collapseOne">
+                <div class="card-body">
+                    <p>The purpose of this tool, is to recognize 'healthy' and 'unhealthy' tomatoes. It uses Convolutional Neural Network (Deep Learning) algorithm to do the prediction. </p>
+                    <p>This model has an accuracy of 91% using Transfer Learning (<a href="https://neurohive.io/en/popular-networks/vgg16/" target="_blank">VGG16 block</a>), with 20 epochs.</p>
+                    <p>Below you can view a detailed graph about the performance of our model.</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <div class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Model accuracy</button>
+                </div>
+            </div>
+            <div class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" id="collapseTwo">
+                <div class="card-body">
+                    <p>By plotting the model accuracy, we can see how well the model performs. The relation between the training and validation datasets are shown per training epochs.</p>
+                    <img src="{{ url_for('static', filename='img/model-acc.jpg') }}" class="img img-fluid" alt="Model accuracy graph">
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <div class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Model loss</button>
+                </div>
+            </div>
+            <div class="collapse" aria-labelledby="headingThree" data-parent="#accordion" id="collapseThree">
+                <div class="card-body">
+                    <p>Model loss</p>
+                    <img src="{{ url_for('static', filename='img/model-loss.jpg') }}" class="img img-fluid" alt="Model loss graph">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="predict-model">
         <h3>Upload a folder</h3>
         <form action="/" method="POST" enctype="multipart/form-data">
