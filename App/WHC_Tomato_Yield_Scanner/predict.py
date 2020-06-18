@@ -58,6 +58,7 @@ def result(unique_id):
             "unhealthy": sum(i <= current_app.config["TOMATO_HEALTHY_PERCENTAGE"] for i in values),
 
             "unique_ids": json.dumps([h["unique_id"] for h in history]),
-            "healthy_percentages": json.dumps([h["percent_healthy"]*100 for h in history])
+            "healthy_percentages": json.dumps([int(h["percent_healthy"]*100) for h in history]),
+            "result_dates": json.dumps([h["result_date"] for h in history], default=str)
         }
     )

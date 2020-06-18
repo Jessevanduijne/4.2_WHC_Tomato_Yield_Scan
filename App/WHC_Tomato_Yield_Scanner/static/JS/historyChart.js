@@ -1,15 +1,15 @@
 const unique_id = document.getElementById("JS-unique_id").textContent;
 const historyData = JSON.parse(document.getElementById("JS-healthy_percentages").textContent)
 const historyLabels = JSON.parse(document.getElementById("JS-unique_ids").textContent)
+const resultDates = JSON.parse(document.getElementById("JS-result_dates").textContent)
 
 var ctx = document.getElementById("historyChart");
 var historyChart = new Chart(ctx.getContext("2d"), {
     "type": "line", 
     "data": { 
-        "labels": historyLabels,
         "datasets": [{ 
             "label": "Your Latest Results", 
-            "data": historyData, 
+            "data": makeChartData(), 
             "fill": false,
             "borderColor": "rgb(75, 192, 192)", 
         }] 
@@ -17,8 +17,14 @@ var historyChart = new Chart(ctx.getContext("2d"), {
     options: {
         scales: {
             xAxes: [{
+                type: "time",
+                distribution: "series",
+            }],
+            yAxes: [{
                 ticks: {
-                    display: false
+                    suggestedMin: 0,
+                    beginAtZero: true,
+                    suggestedMax: 100,
                 }
             }]
         },
@@ -34,8 +40,11 @@ var historyChart = new Chart(ctx.getContext("2d"), {
         },
         tooltips: {
             callbacks: {
+                title: function(tooltipItem, data) {
+                    return historyLabels[tooltipItem[0].index];
+                },
                 label: function(tooltipItem, data) {
-                    return "Healthy Yield: " + tooltipItem.value;
+                    return "Healthy Yield: " + tooltipItem.value + "%";
                 }
             }
         }
@@ -49,4 +58,15 @@ ctx.onclick = function(e) {
     if (unique_id !== pointUniqueId) {
         window.location = "/results/"+pointUniqueId;
     }
+};
+
+function makeChartData() {
+    var chartData = [];
+    for (i = 0; i < historyData.length; i++) {
+        chartData.push({
+            x: new Date(resultDates[i]),
+            y: historyData[i]
+        });
+    }
+    return chartData;
 };

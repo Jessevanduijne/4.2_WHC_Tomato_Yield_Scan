@@ -3,7 +3,7 @@
 {% block grid %}
 
 <h2 class="results">Result {{ result["unique_id"] }}</h2>
-<h6>Taken at: {{ result["result_date"] }}</h6>
+<h6>Taken at: {{ result["result_date"].strftime("%Y-%m-%d %H:%M") }}</h6>
 <h6>{{ result["percent_healthy"] }}% of these tomatoes are healthy</h6>
 
 <div class="hidden-data d-none">
