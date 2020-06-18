@@ -2,18 +2,26 @@
 {% include 'navbar.html' %}
 {% block grid %}
 
-<h2 class="results">Results</h2>
+<h2 class="results">Result {{ unique_id }}</h2>
+<h6>{{ (jsData["healthy"] / jsData["total"] * 100)|int }}% of your tomatoes are healthy</h6>
+
 <div class="hidden-data d-none">
-    {% for key, value in summary.items() %}
+    {% for key, value in jsData.items() %}
         <label id="JS-{{key}}">{{value}}</label>
     {% endfor %}
 </div>
-<div class="row">
+
+<div class="row my-4">
     <div class="col">
         <canvas id="predictChart"></canvas>
         <script src="{{ url_for('static', filename='js/predictChart.js') }}"></script>
     </div>
+    <div class="col">
+        <canvas id="historyChart"></canvas>
+        <script src="{{ url_for('static', filename='js/historyChart.js') }}"></script>
+    </div>
 </div>
+
 <h3><a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="badge badge-pill badge-success">Toggle all predicted images</a></h3>
 <div class="text-right">
     <a href="{{ url_for('predict.index') }}" class="badge badge-pill badge-dark">Predict another set</a>
@@ -24,7 +32,7 @@
             <div class="col-3 my-3">
                 <img src="{{ url_for('static', filename='uploads/') }}{{ row[0] }}" alt="{{ row[0] }}" class="img img-thumbnail">
                 {# check if tomato is unhealthy #}
-                {% if row[1]|float < 0.5 %}
+                {% if row[1]|float <= config["TOMATO_HEALTHY_PERCENTAGE"] %}
                     <div class="alert alert-danger">
                         Unhealthy ({{row[1]}})
                     </div>
@@ -35,6 +43,6 @@
                 {% endif %}
             </div>
         {% endfor %}
-        </div>
+    </div>
 </div>
 {% endblock %}

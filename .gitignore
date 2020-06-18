@@ -4,3 +4,4 @@ Model/
 Notebooks/.ipynb_checkpoints
 Notebooks/Sample_Code_Jesse
 /.vscode/.ropeproject
+/App/db.sqlite-journal

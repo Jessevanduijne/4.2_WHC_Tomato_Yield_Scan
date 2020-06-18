@@ -1,7 +1,11 @@
 import sqlite3
 import click
-from flask import current_app, g
+import numpy as np
+
+from flask import current_app, g, session
 from flask.cli import with_appcontext
+
+from . import helpers
 
 def init_app(app):
     app.teardown_appcontext(close_db)
@@ -36,3 +40,29 @@ def init_db_command():
     # Clear the existing data and create new tables.
     click.echo("Initializing the database...")
     init_db()
+
+def getResult(unique_id):
+    db = get_db()
+    return db.execute(
+        "SELECT * FROM results WHERE unique_id = ?",
+        (unique_id,)
+    ).fetchone()
+
+def getResults(session_id):
+    db = get_db()
+    return db.execute(
+        "SELECT * FROM results WHERE session_id = ? LIMIT 10",
+        (session_id,)
+    ).fetchall()
+
+def insertResult(files, values):
+    unique_id = helpers.generateRandomString(20)
+
+    db = get_db()
+    db.execute(
+        "INSERT INTO results (unique_id, session_id, files_dtype, files, val, percent_healthy) VALUES (?, ?, ?, ?, ?, ?)",
+        (unique_id, session.get("id"), files.dtype.str, files.tostring(), values.tostring(), helpers.calculateHealthyPercentage(values))
+    )
+    db.commit()
+
+    return unique_id
