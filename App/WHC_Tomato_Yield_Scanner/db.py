@@ -41,9 +41,13 @@ def init_db_command():
     init_db()
 
 def insertResult(files, result):
+    unique_id = helpers.generateRandomString(20)
+    
     db = get_db()
     db.execute(
         "INSERT INTO results (unique_id, session_id, files, val, percent_healthy) VALUES (?, ?, ?, ?, ?)",
-        (helpers.generateRandomString(20), session.get("id"), files.tostring(), result.tostring(), (result>current_app.config["TOMATO_HEALTHY_PERCENTAGE"]).sum())
+        (unique_id, session.get("id"), files.tostring(), result.tostring(), (result>current_app.config["TOMATO_HEALTHY_PERCENTAGE"]).sum()/result.size)
     )
     db.commit()
+
+    return unique_id

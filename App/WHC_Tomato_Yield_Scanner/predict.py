@@ -26,7 +26,7 @@ def predict():
     result = get_model().predict(input)[:,0]
     
     ## Insert result into DB
-    insertResult(files, result)
+    unique_id = insertResult(files, result)
 
     return render_template("predict/result.html", 
         result = np.column_stack([files, result]),
